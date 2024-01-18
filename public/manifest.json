@@ -1,14 +1,17 @@
 {
-  "name": "Environment Warnings",
+  "name": "Environment Warning",
+  "description": "Google Chrome Extension to assist development by warning you about the environment you are currently on.",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"
   },
-  "host_permissions": ["*://*/*"],
+  "optional_host_permissions": ["*://*/*"],
   "incognito": "spanning",
+  "optional_permissions": [
+    "scripting"
+  ],
   "permissions": [
     "storage",
-    "scripting",
     "tabs"
   ],
   "icons": {

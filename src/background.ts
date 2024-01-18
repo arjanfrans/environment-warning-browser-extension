@@ -18,22 +18,23 @@ const tabUpdateListener = async (tabId: number, changeInfo: TabChangeInfo, tab: 
     await loadContentScripts(tabId, tab.url)
 }
 
-chrome.storage.onChanged.addListener(async (changes, namespace) => {
-    if (!changes.enabled || namespace !== "local") {
-        return
-    }
-
-    if (tabUpdateListener) {
-        if (changes.enabled.newValue === false) {
-            chrome.tabs.onUpdated.removeListener(tabUpdateListener)
-
-            await chrome.scripting.unregisterContentScripts({ ids: [SCRIPT_ID] })
-        } else {
-            chrome.tabs.onUpdated.addListener(tabUpdateListener)
-        }
-    }
-})
 ;(async function () {
+    chrome.storage.onChanged.addListener(async (changes, namespace) => {
+        if (!changes.enabled || namespace !== "local") {
+            return
+        }
+
+        if (tabUpdateListener) {
+            if (changes.enabled.newValue === false) {
+                chrome.tabs.onUpdated.removeListener(tabUpdateListener)
+
+                await chrome.scripting.unregisterContentScripts({ ids: [SCRIPT_ID] })
+            } else {
+                chrome.tabs.onUpdated.addListener(tabUpdateListener)
+            }
+        }
+    })
+
     if (!(await isExtensionEnabled())) {
         return
     }
@@ -46,6 +47,15 @@ async function loadContentScripts(tabId: number, tabUrl: string) {
     const contentScripts = await chrome.scripting.getRegisteredContentScripts({
         ids: [SCRIPT_ID],
     })
+
+    const isGranted = await chrome.permissions.contains({
+        permissions: ["scripting"],
+        origins: ["*://*/*"],
+    })
+
+    if (!isGranted) {
+        return
+    }
 
     if (contentScripts.length === 1) {
         const contentScript = contentScripts[0]

@@ -57,4 +57,9 @@ saveButton.addEventListener("click", async () => {
     ]
 
     await saveEnvironments(environments)
+
+    await chrome.permissions.request({
+        permissions: ["scripting"],
+        origins: ["*://*/*"],
+    })
 })
