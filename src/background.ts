@@ -33,7 +33,6 @@ chrome.storage.onChanged.addListener(async (changes, namespace) => {
         }
     }
 })
-
 ;(async function () {
     if (!(await isExtensionEnabled())) {
         return

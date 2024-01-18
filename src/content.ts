@@ -55,19 +55,22 @@ function renderWarningBanner(type: string) {
     banner.id = "__warning-banner"
 
     if (type === "red") {
-        banner.style.backgroundColor = "rgba(255,0,0,0.3)"
+        banner.style.backgroundColor = "rgb(255,0,0)"
     } else if (type === "yellow") {
-        banner.style.backgroundColor = "rgba(255,255,0,0.3)"
+        banner.style.backgroundColor = "rgb(255,255,0)"
     } else if (type === "green") {
-        banner.style.backgroundColor = "rgba(0,255,0,0.3)"
+        banner.style.backgroundColor = "rgb(0,255,0)"
     }
 
     banner.style.textAlign = "center"
     banner.style.height = "30px"
     banner.style.fontWeight = "bold"
     banner.style.width = "100%"
+    banner.style.opacity = "0.4"
     banner.style.position = "fixed"
+    banner.style.color = "#000000"
     banner.style.top = "0"
+    banner.style.left = "0"
     banner.style.zIndex = "99999"
     banner.style.pointerEvents = "none"
     banner.style.fontFamily = "monospace"

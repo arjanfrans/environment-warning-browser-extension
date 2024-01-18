@@ -1,5 +1,4 @@
 import { enableExtension, isExtensionEnabled } from "./Storage"
-
 ;(async function () {
     const button = document.querySelector("#enable-button") as HTMLButtonElement
     let isEnabled = await isExtensionEnabled()
