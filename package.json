@@ -12,6 +12,7 @@
   "homepage": "https://arjanfrans.com",
   "devDependencies": {
     "@types/chrome": "^0.0.254",
+    "@types/web": "^0.0.135",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "copy-webpack-plugin": "^11.0.0",

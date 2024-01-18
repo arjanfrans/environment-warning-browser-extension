@@ -18,13 +18,6 @@
     "48": "icon48.png",
     "128": "icon128.png"
   },
-  "web_accessible_resources": [
-    {
-      "resources": ["_favicon/*"],
-      "matches": ["<all_urls>"],
-      "extension_ids": ["*"]
-    }
-  ],
   "action": {
     "default_popup": "popup.html"
   },

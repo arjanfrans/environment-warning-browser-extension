@@ -66,7 +66,7 @@ function renderWarningBanner(type: string) {
     banner.style.height = "30px"
     banner.style.fontWeight = "bold"
     banner.style.width = "100%"
-    banner.style.opacity = "0.4"
+    banner.style.opacity = "0.5"
     banner.style.position = "fixed"
     banner.style.color = "#000000"
     banner.style.top = "0"
