@@ -1,0 +1,52 @@
+{
+  "name": "@arjanfrans/environment-warning-chrome-extension",
+  "description": "Environment warning Chrome extensions",
+  "version": "0.0.1",
+  "private": true,
+  "author": {
+    "name": "Arjan Frans",
+    "email": "arjan@arjanfrans.com",
+    "url": "https://arjanfrans.com"
+  },
+  "license": "GPL-3.0-only",
+  "homepage": "https://arjanfrans.com",
+  "devDependencies": {
+    "@types/chrome": "^0.0.254",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.8.1",
+    "css-minimizer-webpack-plugin": "^5.0.1",
+    "dotenv-webpack": "^8.0.1",
+    "eslint": "^8.45.0",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "mini-css-extract-plugin": "^2.7.6",
+    "prettier": "^2.8.4",
+    "terser-webpack-plugin": "^5.3.9",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.0.2",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "scripts": {
+    "start": "NODE_ENV=development webpack --watch",
+    "build": "NODE_ENV=production webpack",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
+    "cs-format": "prettier 'src/**/*.ts' --write --no-semi --tab-width 4 --print-width=120",
+    "cs": "npm run cs-format && npm run lint"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
