@@ -32,7 +32,7 @@ saveButton.addEventListener("click", async () => {
         ...yellowPatterns.map((pattern) =>
             Environment.fromObject({
                 pattern,
-                type: EnvironmentTypeEnum.Green,
+                type: EnvironmentTypeEnum.Yellow,
             })
         ),
         ...greenPatterns.map((pattern) =>

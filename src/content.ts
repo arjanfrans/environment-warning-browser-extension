@@ -52,7 +52,7 @@ function renderWarningBanner(type: EnvironmentTypeEnum) {
         banner = document.createElement("div")
     }
 
-    banner.textContent = `${type.toUpperCase()} SYSTEM`
+    banner.textContent = `${type.toUpperCase()} ENVIRONMENT`
 
     banner.id = BANNER_ELEMENT_ID
 
