@@ -1,3 +1,24 @@
 textarea {
     width: 100%;
 }
+
+.dot {
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    display: inline-block;
+    filter: brightness(0.8);
+    transform: translateY(6px);
+}
+
+.red-dot {
+    background-color: rgb(255,0,0);
+}
+
+.yellow-dot {
+    background-color: rgb(255,255,0);
+}
+
+.green-dot {
+    background-color: rgb(0,255,0);
+}

@@ -1,4 +1,4 @@
-import { Environment } from "./Environment"
+import { Environment } from "../model/Environment"
 
 export async function getEnvironments(): Promise<Environment[]> {
     return ((await chrome.storage.sync.get(["environments"])).environments || []).map(Environment.fromObject)

@@ -5,6 +5,7 @@ const TerserJSPlugin = require("terser-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
+const webpack = require('webpack')
 
 const env = process.env.NODE_ENV;
 const useContentHash = false;
@@ -60,6 +61,9 @@ module.exports = {
   },
   plugins:
     [
+      new webpack.DefinePlugin({
+        'PACKAGE_VERSION': JSON.stringify(process.env.npm_package_version)
+      }),
       new MiniCssExtractPlugin({
         filename: env === "production" && useContentHash ? "[name].[contenthash].css" : "[name].css"
       }),

@@ -1,6 +1,8 @@
-import { Environment } from "./Environment"
-import { getEnvironments } from "./Storage"
-import { getModifiedFavicon } from "./ImageOverlay"
+import { Environment } from "./model/Environment"
+import { getEnvironments } from "./storage/storage"
+import { getModifiedFavicon } from "./favicon/favicon"
+import { BANNER_ELEMENT_ID, FAVICON_ATTRIBUTE } from "./config/config"
+import { EnvironmentTypeEnum } from "./model/EnvironmentTypeEnum"
 
 chrome.storage.onChanged.addListener((changes, namespace) => {
     if (!changes.environments || changes.environments.newValue === undefined || namespace !== "sync") {
@@ -25,7 +27,7 @@ async function updateFavicon(type: string) {
         return
     }
 
-    if (!link.hasAttribute("injected-favicon")) {
+    if (!link.hasAttribute(FAVICON_ATTRIBUTE)) {
         let color: string
 
         if (type === "red") {
@@ -36,14 +38,14 @@ async function updateFavicon(type: string) {
             color = "rgba(0,255,0)"
         }
 
-        link.setAttribute("injected-favicon", "true")
+        link.setAttribute(FAVICON_ATTRIBUTE, "true")
 
         link.type = "image/png"
         link.href = await getModifiedFavicon(link.href, color)
     }
 }
 
-function renderWarningBanner(type: string) {
+function renderWarningBanner(type: EnvironmentTypeEnum) {
     let banner = document.querySelector("#__warning-banner") as HTMLDivElement | undefined
 
     if (!banner) {
@@ -52,13 +54,13 @@ function renderWarningBanner(type: string) {
 
     banner.textContent = `${type.toUpperCase()} SYSTEM`
 
-    banner.id = "__warning-banner"
+    banner.id = BANNER_ELEMENT_ID
 
-    if (type === "red") {
+    if (type === EnvironmentTypeEnum.Red) {
         banner.style.backgroundColor = "rgb(255,0,0)"
-    } else if (type === "yellow") {
+    } else if (type === EnvironmentTypeEnum.Yellow) {
         banner.style.backgroundColor = "rgb(255,255,0)"
-    } else if (type === "green") {
+    } else if (type === EnvironmentTypeEnum.Green) {
         banner.style.backgroundColor = "rgb(0,255,0)"
     }
 

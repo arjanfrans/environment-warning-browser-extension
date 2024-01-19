@@ -1,7 +1,7 @@
 {
   "name": "@arjanfrans/environment-warning-chrome-extension",
   "description": "Environment warning Chrome extensions",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": true,
   "author": {
     "name": "Arjan Frans",

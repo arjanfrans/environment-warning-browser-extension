@@ -1,6 +1,12 @@
-import { enableExtension, isExtensionEnabled } from "./Storage"
+import "./popup.css"
+import { enableExtension, isExtensionEnabled } from "./storage/storage"
+import { sleep } from "./helper/sleep"
 ;(async function () {
+    const versionLabel = document.querySelector("#version") as HTMLDivElement
+
+    versionLabel.textContent = `Version ${PACKAGE_VERSION}`
     const button = document.querySelector("#enable-button") as HTMLButtonElement
+
     let isEnabled = await isExtensionEnabled()
 
     if (isEnabled) {
@@ -20,6 +26,8 @@ import { enableExtension, isExtensionEnabled } from "./Storage"
         } else {
             button.textContent = "Enable"
         }
+
+        await sleep(300)
 
         button.disabled = false
     })

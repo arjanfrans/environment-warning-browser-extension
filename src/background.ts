@@ -1,7 +1,8 @@
-import { Environment } from "./Environment"
-import { getEnvironments, isExtensionEnabled } from "./Storage"
+import { Environment } from "./model/Environment"
+import { getEnvironments, isExtensionEnabled } from "./storage/storage"
 import TabChangeInfo = chrome.tabs.TabChangeInfo
 import Tab = chrome.tabs.Tab
+import { ALL_HOSTS_WILDCARD } from "./config/config"
 
 const SCRIPT_ID = "content"
 const SCRIPT_FILE = "content.js"
@@ -50,7 +51,7 @@ async function loadContentScripts(tabId: number, tabUrl: string) {
 
     const isGranted = await chrome.permissions.contains({
         permissions: ["scripting"],
-        origins: ["*://*/*"],
+        origins: [ALL_HOSTS_WILDCARD],
     })
 
     if (!isGranted) {

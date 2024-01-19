@@ -1,6 +1,9 @@
 import "./options.css"
-import { Environment } from "./Environment"
-import { getEnvironments, saveEnvironments } from "./Storage"
+import { Environment } from "./model/Environment"
+import { getEnvironments, saveEnvironments } from "./storage/storage"
+import { ALL_HOSTS_WILDCARD } from "./config/config"
+import { sleep } from "./helper/sleep"
+import { EnvironmentTypeEnum } from "./model/EnvironmentTypeEnum"
 
 const redEnvironments = document.querySelector("#red-environments") as HTMLTextAreaElement
 const yellowEnvironments = document.querySelector("#yellow-environments") as HTMLTextAreaElement
@@ -8,50 +11,34 @@ const greenEnvironments = document.querySelector("#green-environments") as HTMLT
 
 const saveButton = document.querySelector("#save-button") as HTMLButtonElement
 
-;(async () => {
-    const environments = await getEnvironments()
-
-    const redPatterns = []
-    const yellowPatterns = []
-    const greenPatterns = []
-
-    for (const environment of environments) {
-        if (environment.type === "red") {
-            redPatterns.push(environment.pattern)
-        } else if (environment.type === "yellow") {
-            yellowPatterns.push(environment.pattern)
-        } else if (environment.type === "green") {
-            greenPatterns.push(environment.pattern)
-        }
-    }
-
-    redEnvironments.value = redPatterns.join("\n")
-    yellowEnvironments.value = yellowPatterns.join("\n")
-    greenEnvironments.value = greenPatterns.join("\n")
-})()
+function linesToArray(value?: string): string[] {
+    return value?.split("\n").filter((v) => v.trim() !== "") || []
+}
 
 saveButton.addEventListener("click", async () => {
-    const redPatterns = redEnvironments.value?.split("\n") || []
-    const yellowPatterns = yellowEnvironments.value?.split("\n") || []
-    const greenPatterns = greenEnvironments.value?.split("\n") || []
+    saveButton.disabled = true
+
+    const redPatterns = linesToArray(redEnvironments.value)
+    const yellowPatterns = linesToArray(yellowEnvironments.value)
+    const greenPatterns = linesToArray(greenEnvironments.value)
 
     const environments = [
         ...redPatterns.map((pattern) =>
             Environment.fromObject({
                 pattern,
-                type: "red",
+                type: EnvironmentTypeEnum.Red,
             })
         ),
         ...yellowPatterns.map((pattern) =>
             Environment.fromObject({
                 pattern,
-                type: "yellow",
+                type: EnvironmentTypeEnum.Green,
             })
         ),
         ...greenPatterns.map((pattern) =>
             Environment.fromObject({
                 pattern,
-                type: "green",
+                type: EnvironmentTypeEnum.Green,
             })
         ),
     ]
@@ -60,6 +47,31 @@ saveButton.addEventListener("click", async () => {
 
     await chrome.permissions.request({
         permissions: ["scripting"],
-        origins: ["*://*/*"],
+        origins: [ALL_HOSTS_WILDCARD],
     })
+
+    await sleep(300)
+
+    saveButton.disabled = false
 })
+;(async () => {
+    const environments = await getEnvironments()
+
+    const redPatterns = []
+    const yellowPatterns = []
+    const greenPatterns = []
+
+    for (const environment of environments) {
+        if (environment.type === EnvironmentTypeEnum.Red) {
+            redPatterns.push(environment.pattern)
+        } else if (environment.type === EnvironmentTypeEnum.Yellow) {
+            yellowPatterns.push(environment.pattern)
+        } else if (environment.type === EnvironmentTypeEnum.Green) {
+            greenPatterns.push(environment.pattern)
+        }
+    }
+
+    redEnvironments.value = redPatterns.join("\n")
+    yellowEnvironments.value = yellowPatterns.join("\n")
+    greenEnvironments.value = greenPatterns.join("\n")
+})()
