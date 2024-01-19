@@ -12,13 +12,13 @@ textarea {
 }
 
 .red-dot {
-    background-color: rgb(255,0,0);
+    background-color: rgb(255 0 0);
 }
 
 .yellow-dot {
-    background-color: rgb(255,255,0);
+    background-color: rgb(255 255 0);
 }
 
 .green-dot {
-    background-color: rgb(0,255,0);
+    background-color: rgb(0 255 0);
 }

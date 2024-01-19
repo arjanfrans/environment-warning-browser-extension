@@ -21,8 +21,7 @@ button {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    column-gap: 4px;
-    row-gap: 4px;
+    gap: 4px 4px;
     padding: 4px;
     height: 100%;
 }

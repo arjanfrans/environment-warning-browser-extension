@@ -1,6 +1,5 @@
 {
   "name": "Environment Warning",
-  "description": "Google Chrome Extension to assist development by warning you about the environment you are currently on.",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"

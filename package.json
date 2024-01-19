@@ -1,7 +1,7 @@
 {
   "name": "@arjanfrans/environment-warning-chrome-extension",
-  "description": "Environment warning Chrome extensions",
-  "version": "0.0.3",
+  "description": "Extension to assist development by warning you about the environment you are currently on.",
+  "version": "0.0.4",
   "private": true,
   "author": {
     "name": "Arjan Frans",
@@ -24,6 +24,8 @@
     "prettier": "^2.8.4",
     "terser-webpack-plugin": "^5.3.9",
     "ts-loader": "^9.5.1",
+    "stylelint": "^15.2.0",
+    "stylelint-config-standard": "^30.0.1",
     "typescript": "^5.0.2",
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4"
@@ -33,18 +35,7 @@
     "build": "NODE_ENV=production webpack",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
     "cs-format": "prettier 'src/**/*.ts' --write --no-semi --tab-width 4 --print-width=120",
-    "cs": "npm run cs-format && npm run lint"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "cs-css": "stylelint src/**/*.css --fix",
+    "cs": "npm run cs-format && npm run lint && npm run cs-css"
   }
 }

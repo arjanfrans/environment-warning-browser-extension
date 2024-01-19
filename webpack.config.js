@@ -6,10 +6,9 @@ const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
 const webpack = require('webpack')
+const PACKAGE_JSON = require('./package.json')
 
 const env = process.env.NODE_ENV;
-const useContentHash = false;
-
 
 module.exports = {
   mode: env,
@@ -62,10 +61,10 @@ module.exports = {
   plugins:
     [
       new webpack.DefinePlugin({
-        'PACKAGE_VERSION': JSON.stringify(process.env.npm_package_version)
+        'PACKAGE_VERSION': JSON.stringify(PACKAGE_JSON.version)
       }),
       new MiniCssExtractPlugin({
-        filename: env === "production" && useContentHash ? "[name].[contenthash].css" : "[name].css"
+        filename: "[name].css"
       }),
       new CopyPlugin({
         patterns: [
@@ -74,26 +73,21 @@ module.exports = {
             transform: (content) => {
               const manifest = JSON.parse(content);
 
-              manifest.version = process.env.npm_package_version
+              manifest.version = PACKAGE_JSON.version
+              manifest.description = PACKAGE_JSON.description
 
               return JSON.stringify(manifest, null, 2);
-            }
+            },
+            to: "manifest.json"
           },
-          { from: "public/options.html", to: "options.html" },
-          { from: "public/popup.html", to: "popup.html" },
-          { from: "public/*.png", to: "[name][ext]" },
+          { from: "public/*", to: "[name][ext]" },
 
         ].filter(Boolean)
       })
     ],
   output: {
-    filename: env === "production" && useContentHash ? "[name].[contenthash].js" : "[name].js",
+    filename: "[name].js",
     path: path.resolve(__dirname, "dist"),
     clean: true
-  },
-  performance: {
-    hints: false,
-    maxEntrypointSize: 512000,
-    maxAssetSize: 512000
   }
 };
