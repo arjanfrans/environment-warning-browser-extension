@@ -80,6 +80,8 @@ function renderWarningBanner(type: EnvironmentTypeEnum) {
     banner.style.display = "flex"
     banner.style.flexDirection = "column"
     banner.style.justifyContent = "center"
+    banner.style.margin = "0"
+    banner.style.padding = "0"
 
     document.body.append(banner)
 }
