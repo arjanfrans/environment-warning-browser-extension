@@ -21,7 +21,7 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
 })
 
 async function updateFavicon(type: string) {
-    const link = document.querySelector("link[rel*='icon'], link[rel*='shortcut icon']") as HTMLLinkElement | undefined
+    const link = document.querySelector("link[rel='icon'], link[rel='shortcut icon']") as HTMLLinkElement | undefined
 
     if (!link) {
         return
