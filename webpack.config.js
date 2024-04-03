@@ -1,8 +1,6 @@
 "use strict";
 
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const TerserJSPlugin = require("terser-webpack-plugin");
-const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
 const webpack = require('webpack')
@@ -18,7 +16,7 @@ module.exports = {
     options: "./src/options.ts",
     popup: "./src/popup.ts",
   },
-  devtool: env === "production" ? "source-map" : "inline-source-map",
+  devtool: env === "production" ? undefined : "inline-source-map",
   module: {
     rules: [
       {
@@ -49,11 +47,7 @@ module.exports = {
     ]
   },
   optimization: {
-    minimize: true,
-    minimizer: [
-      new TerserJSPlugin({}),
-      new CssMinimizerPlugin()
-    ]
+    minimize: false
   },
   resolve: {
     extensions: [".tsx", ".ts", ".js"]
@@ -82,7 +76,7 @@ module.exports = {
           },
           { from: "public/*", to: "[name][ext]" },
 
-        ].filter(Boolean)
+        ]
       })
     ],
   output: {
