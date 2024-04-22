@@ -1,11 +1,13 @@
 import { Environment } from "./model/Environment"
-import { getEnvironments, isExtensionEnabled } from "./storage/storage"
+import { enableExtension, getEnvironments, isExtensionEnabled } from "./storage/storage"
+import { ALL_HOSTS_WILDCARD } from "./config/config"
 import TabChangeInfo = chrome.tabs.TabChangeInfo
 import Tab = chrome.tabs.Tab
-import { ALL_HOSTS_WILDCARD } from "./config/config"
+import { sleep } from "./helper/sleep"
 
 const SCRIPT_ID = "content"
 const SCRIPT_FILE = "content.js"
+const ENABLE_DISABLE_CONTEXT_MENU_ITEM = "enable_disable_menu_item"
 
 const tabUpdateListener = async (tabId: number, changeInfo: TabChangeInfo, tab: Tab) => {
     if (!tab.url) {
@@ -20,6 +22,28 @@ const tabUpdateListener = async (tabId: number, changeInfo: TabChangeInfo, tab: 
 }
 
 ;(async function () {
+    chrome.runtime.onInstalled.addListener(async () => {
+        const isEnabled = await isExtensionEnabled()
+
+        chrome.contextMenus.create({
+            id: ENABLE_DISABLE_CONTEXT_MENU_ITEM,
+            title: isEnabled ? "Disable" : "Enable",
+            contexts: ["action"],
+        })
+    })
+
+    chrome.contextMenus.onClicked.addListener(async (info) => {
+        if (info.menuItemId === ENABLE_DISABLE_CONTEXT_MENU_ITEM) {
+            const isEnabled = await isExtensionEnabled()
+
+            await Promise.all([await enableExtension(!isEnabled), sleep(300)])
+
+            chrome.contextMenus.update(ENABLE_DISABLE_CONTEXT_MENU_ITEM, {
+                title: isEnabled ? "Disable" : "Enable",
+            })
+        }
+    })
+
     chrome.storage.onChanged.addListener(async (changes, namespace) => {
         if (!changes.enabled || namespace !== "local") {
             return

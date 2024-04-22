@@ -13,6 +13,7 @@ export async function getModifiedFavicon(url: string, color: string, width = 32,
     const original = new Image()
 
     original.src = url
+    original.crossOrigin = "Anonymous"
 
     return new Promise((resolve, reject) => {
         original.onload = () => {

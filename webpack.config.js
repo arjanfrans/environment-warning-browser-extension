@@ -14,7 +14,6 @@ module.exports = {
     content: "./src/content.ts",
     background: "./src/background.ts",
     options: "./src/options.ts",
-    popup: "./src/popup.ts",
   },
   devtool: env === "production" ? undefined : "inline-source-map",
   module: {

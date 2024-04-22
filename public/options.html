@@ -6,29 +6,35 @@
 </head>
 <body>
 
-<div>
-  <h1>
-    Environment Warning - Options
-  </h1>
-  <div>
-    <h2><label for="red-environments">Red Environments</label> <span class="dot red-dot"></span></h2>
-    <textarea rows="15" id="red-environments"></textarea>
-    <div>
+<div class="options">
 
-      <div>
-        <h2><label for="yellow-environments">Yellow Environments</label> <span class="dot yellow-dot"></span></h2>
-        <textarea rows="15" id="yellow-environments"></textarea>
-      </div>
+  <div class="settings-container">
+    <h1>
+      Environment Warning - Options
+    </h1>
 
-      <div>
-        <h2><label for="green-environments">Green Environments</label> <span class="dot green-dot"></span></h2>
-        <textarea rows="15" id="green-environments"></textarea>
-      </div>
-    </div>
-    <div>
-      <button id="save-button">Save</button>
+    <div class="settings-row">
+      <h2><label for="red-environments">Red Environments</label> <span class="dot red-dot"></span></h2>
+      <textarea rows="15" id="red-environments"></textarea>
     </div>
 
-    <script src="/options.js"></script>
+    <div class="settings-row">
+      <h2><label for="yellow-environments">Yellow Environments</label> <span class="dot yellow-dot"></span></h2>
+      <textarea rows="15" id="yellow-environments"></textarea>
+    </div>
+
+    <div class="settings-row">
+      <h2><label for="green-environments">Green Environments</label> <span class="dot green-dot"></span></h2>
+      <textarea rows="15" id="green-environments"></textarea>
+    </div>
+  </div>
+
+  <div class="save-section">
+    <button id="save-button">Save options</button>
+    <div id="version-label"><span>&copy; Arjan Frans</span></div>
+  </div>
+
+</div>
+<script src="/options.js"></script>
 </body>
 </html>

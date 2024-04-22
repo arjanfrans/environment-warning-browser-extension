@@ -8,6 +8,7 @@ import { EnvironmentTypeEnum } from "./model/EnvironmentTypeEnum"
 const redEnvironments = document.querySelector("#red-environments") as HTMLTextAreaElement
 const yellowEnvironments = document.querySelector("#yellow-environments") as HTMLTextAreaElement
 const greenEnvironments = document.querySelector("#green-environments") as HTMLTextAreaElement
+const versionLabel = document.querySelector("#version-label") as HTMLTextAreaElement
 
 const saveButton = document.querySelector("#save-button") as HTMLButtonElement
 
@@ -74,4 +75,6 @@ saveButton.addEventListener("click", async () => {
     redEnvironments.value = redPatterns.join("\n")
     yellowEnvironments.value = yellowPatterns.join("\n")
     greenEnvironments.value = greenPatterns.join("\n")
+    versionLabel.prepend(`Version ${PACKAGE_VERSION} | `)
+    versionLabel.append(` ${new Date().getFullYear()}`)
 })()

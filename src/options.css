@@ -1,5 +1,31 @@
+
+html {
+    line-height: 1.15; /* 1 */
+    text-size-adjust: 100%; /* 2 */
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    line-height: 1.15; /* 1 */
+    text-size-adjust: 100%; /* 2 */
+    font-family: sans-serif;
+    height: 100%;
+}
+
+.options {
+    height: 100%;
+}
+
 textarea {
     width: 100%;
+}
+
+.settings-container {
+    display: flex;
+    flex-direction: column;
+    margin-inline: 8px;
+    padding-bottom: 50px;
 }
 
 .dot {
@@ -21,4 +47,26 @@ textarea {
 
 .green-dot {
     background-color: rgb(0 255 0);
+}
+
+
+.save-section {
+    border-top: 1px solid #4b4b4b;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #a4a4a4;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    height: 50px;
+}
+
+.save-section button {
+    font-size: 200%;
+    margin: 8px;
+}
+
+.save-section #version-label {
+    margin: 8px;
 }
