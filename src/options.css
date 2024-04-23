@@ -54,8 +54,8 @@ textarea {
 }
 
 .save-section {
-    border-top: 1px solid #4b4b4b;
-    background-color: #a4a4a4;
+    border-top: 1px solid #9b9b9b;
+    background-color: #d3d3d3;
     display: flex;
     justify-content: space-between;
     align-items: end;
