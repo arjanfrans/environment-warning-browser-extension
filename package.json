@@ -8,8 +8,19 @@
     "email": "arjan@arjanfrans.com",
     "url": "https://arjanfrans.com"
   },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/arjanfrans"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arjanfrans/environment-warning-chrome-extension.git"
+  },
+  "bugs": {
+    "url": "https://github.com/arjanfrans/environment-warning-chrome-extension/issues"
+  },
   "license": "GPL-3.0-only",
-  "homepage": "https://arjanfrans.com",
+  "homepage": "https://github.com/arjanfrans/environment-warning-chrome-extension",
   "devDependencies": {
     "@types/chrome": "^0.0.254",
     "@types/web": "^0.0.135",

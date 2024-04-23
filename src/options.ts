@@ -1,14 +1,17 @@
+import "./lib/index.css"
 import "./options.css"
+import PACKAGE_JSON from "../package.json"
 import { Environment } from "./model/Environment"
 import { getEnvironments, saveEnvironments } from "./storage/storage"
 import { ALL_HOSTS_WILDCARD } from "./config/config"
 import { sleep } from "./helper/sleep"
 import { EnvironmentTypeEnum } from "./model/EnvironmentTypeEnum"
+import { OptionsFooter } from "./lib/options-footer"
 
 const redEnvironments = document.querySelector("#red-environments") as HTMLTextAreaElement
 const yellowEnvironments = document.querySelector("#yellow-environments") as HTMLTextAreaElement
 const greenEnvironments = document.querySelector("#green-environments") as HTMLTextAreaElement
-const versionLabel = document.querySelector("#version-label") as HTMLTextAreaElement
+const saveSection = document.querySelector(".save-section") as HTMLDivElement
 
 const saveButton = document.querySelector("#save-button") as HTMLButtonElement
 
@@ -75,6 +78,14 @@ saveButton.addEventListener("click", async () => {
     redEnvironments.value = redPatterns.join("\n")
     yellowEnvironments.value = yellowPatterns.join("\n")
     greenEnvironments.value = greenPatterns.join("\n")
-    versionLabel.prepend(`Version ${PACKAGE_VERSION} | `)
-    versionLabel.append(` ${new Date().getFullYear()}`)
+
+    saveSection.append(
+        new OptionsFooter(
+            PACKAGE_JSON.version,
+            PACKAGE_JSON.author.name,
+            PACKAGE_JSON.author.url,
+            PACKAGE_JSON.homepage,
+            PACKAGE_JSON.funding.url
+        )
+    )
 })()

@@ -1,0 +1,27 @@
+options-footer {
+    font-size: var(--font-size-sm);
+    color: var(--subtle-font-color);
+    padding: var(--gap-sm);
+}
+
+.options-footer {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    min-width: max-content;
+}
+
+.options-footer > div {
+    padding-inline: var(--gap-sm);
+    border-right: 2px solid var(--subtle-stroke-color);
+}
+
+.options-footer > div:last-child {
+    border-right: none;
+}
+
+.options-footer .options-footer-icon {
+    width: var(--font-size-sm);
+    height: var(--font-size-sm);
+    transform: translateY(2px);
+}

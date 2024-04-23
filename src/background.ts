@@ -34,9 +34,9 @@ const tabUpdateListener = async (tabId: number, changeInfo: TabChangeInfo, tab: 
 
     chrome.contextMenus.onClicked.addListener(async (info) => {
         if (info.menuItemId === ENABLE_DISABLE_CONTEXT_MENU_ITEM) {
-            const isEnabled = await isExtensionEnabled()
+            const isEnabled = !(await isExtensionEnabled())
 
-            await Promise.all([await enableExtension(!isEnabled), sleep(300)])
+            await Promise.all([await enableExtension(isEnabled), sleep(300)])
 
             chrome.contextMenus.update(ENABLE_DISABLE_CONTEXT_MENU_ITEM, {
                 title: isEnabled ? "Disable" : "Enable",
@@ -53,7 +53,13 @@ const tabUpdateListener = async (tabId: number, changeInfo: TabChangeInfo, tab: 
             if (changes.enabled.newValue === false) {
                 chrome.tabs.onUpdated.removeListener(tabUpdateListener)
 
-                await chrome.scripting.unregisterContentScripts({ ids: [SCRIPT_ID] })
+                if ((await chrome.scripting.getRegisteredContentScripts({ ids: [SCRIPT_ID] })).length > 0) {
+                    await chrome.scripting.unregisterContentScripts({ ids: [SCRIPT_ID] })
+                }
+
+                chrome.contextMenus.update(ENABLE_DISABLE_CONTEXT_MENU_ITEM, {
+                    title: "Enable",
+                })
             } else {
                 chrome.tabs.onUpdated.addListener(tabUpdateListener)
             }

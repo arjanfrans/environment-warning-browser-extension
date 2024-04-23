@@ -1,0 +1,19 @@
+:root {
+    --gap-sm: 8px;
+    --font-size-sm: 18px;
+    --subtle-font-color: rgb(0 0 0 / 60%);
+    --subtle-stroke-color: rgb(0 0 0 / 20%);
+}
+
+a {
+    text-decoration: none;
+}
+
+a, a:visited, a:hover, a:active {
+    color: inherit;
+}
+
+
+a:hover {
+    text-decoration: underline;
+}
