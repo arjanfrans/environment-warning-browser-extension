@@ -13,7 +13,7 @@ options-footer {
 
 .options-footer > div {
     padding-inline: var(--gap-sm);
-    border-right: 2px solid var(--subtle-stroke-color);
+    border-right: var(--separator-stroke-width) solid var(--subtle-stroke-color);
 }
 
 .options-footer > div:last-child {

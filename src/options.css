@@ -59,7 +59,6 @@ textarea {
     display: flex;
     justify-content: space-between;
     align-items: end;
-    height: 50px;
     width: 100%;
     min-width: max-content;
 }

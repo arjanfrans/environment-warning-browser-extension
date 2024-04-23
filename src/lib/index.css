@@ -1,8 +1,14 @@
 :root {
     --gap-sm: 8px;
+    --font-family: arial, sans-serif;
+    --font-size-lg: 24px;
     --font-size-sm: 18px;
+    --font-color: rgb(0 0 0 / 80%);
     --subtle-font-color: rgb(0 0 0 / 60%);
     --subtle-stroke-color: rgb(0 0 0 / 20%);
+    --border-default: 1px solid #9b9b9b;
+    --background-default: #d3d3d3;
+    --separator-stroke-width: 2px;
 }
 
 a {
@@ -16,4 +22,8 @@ a, a:visited, a:hover, a:active {
 
 a:hover {
     text-decoration: underline;
+}
+
+body {
+    font-family: var(--font-family);
 }

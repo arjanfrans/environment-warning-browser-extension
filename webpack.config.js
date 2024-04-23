@@ -62,7 +62,7 @@ module.exports = {
       new CopyPlugin({
         patterns: [
           {
-            from: "public/manifest.json",
+            from: "manifest.json",
             transform: (content) => {
               const manifest = JSON.parse(content);
 

@@ -1,7 +1,7 @@
 {
   "name": "@arjanfrans/environment-warning-chrome-extension",
   "description": "Extension to assist development by warning you about the environment you are currently on.",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "private": true,
   "author": {
     "name": "Arjan Frans",

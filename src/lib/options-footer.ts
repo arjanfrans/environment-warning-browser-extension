@@ -22,17 +22,19 @@ export class OptionsFooter extends HTMLElement {
     }
 
     private renderAuthor(): string {
+        const year = new Date().getFullYear()
+
         if (this.authorUrl) {
             return `
     <div>
-      &copy; <a target="_blank" href="${this.authorUrl}">${this.authorName}</a>
+      &copy; <a target="_blank" href="${this.authorUrl}">${this.authorName}</a> ${year}
     </div>
     `
         }
 
         return `
     <div>
-      &copy; ${this.authorName}
+      &copy; ${this.authorName} ${year}
     </div>
     `
     }
@@ -65,4 +67,4 @@ export class OptionsFooter extends HTMLElement {
     }
 }
 
-customElements.define("options-footer", OptionsFooter)
+window.customElements.define("options-footer", OptionsFooter)
