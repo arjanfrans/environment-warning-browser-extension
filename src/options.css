@@ -64,6 +64,7 @@ textarea {
 }
 
 .save-section button {
-    font-size: 200%;
-    margin: 8px;
+    font-size: var(--font-size-lg);
+    margin: var(--gap-sm);
+    padding-inline: var(--gap-sm);
 }

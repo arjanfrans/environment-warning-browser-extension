@@ -4,11 +4,11 @@ import PACKAGE_JSON from "../package.json"
 import MANIFEST_JSON from "../manifest.json"
 import { Environment } from "./model/Environment"
 import { getEnvironments, saveEnvironments } from "./storage/storage"
-import { ALL_HOSTS_WILDCARD } from "./config/config"
 import { sleep } from "./helper/sleep"
 import { EnvironmentTypeEnum } from "./model/EnvironmentTypeEnum"
 import { OptionsFooter } from "./lib/options-footer"
 import { OptionsHeader } from "./lib/options-header"
+import { ALL_HOSTS_WILDCARD } from "./config/config"
 
 const redEnvironments = document.querySelector("#red-environments") as HTMLTextAreaElement
 const yellowEnvironments = document.querySelector("#yellow-environments") as HTMLTextAreaElement
@@ -22,7 +22,13 @@ function linesToArray(value?: string): string[] {
     return value?.split("\n").filter((v) => v.trim() !== "") || []
 }
 
-saveButton.addEventListener("click", async () => {
+saveButton.addEventListener("click", () => {
+    // Promises break the permission asking flow!
+    chrome.permissions.request({
+        permissions: ["scripting"],
+        origins: [ALL_HOSTS_WILDCARD],
+    })
+
     saveButton.disabled = true
 
     const redPatterns = linesToArray(redEnvironments.value)
@@ -50,16 +56,12 @@ saveButton.addEventListener("click", async () => {
         ),
     ]
 
-    await saveEnvironments(environments)
+    ;(async () => {
+        await saveEnvironments(environments)
+        await sleep(300)
 
-    await chrome.permissions.request({
-        permissions: ["scripting"],
-        origins: [ALL_HOSTS_WILDCARD],
-    })
-
-    await sleep(300)
-
-    saveButton.disabled = false
+        saveButton.disabled = false
+    })()
 })
 ;(async () => {
     const environments = await getEnvironments()

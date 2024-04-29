@@ -1,5 +1,5 @@
 import { Environment } from "./model/Environment"
-import { enableExtension, getEnvironments, isExtensionEnabled } from "./storage/storage"
+import { setIsExtensionEnabled, getEnvironments, isExtensionEnabled } from "./storage/storage"
 import { ALL_HOSTS_WILDCARD } from "./config/config"
 import TabChangeInfo = chrome.tabs.TabChangeInfo
 import Tab = chrome.tabs.Tab
@@ -8,6 +8,7 @@ import { sleep } from "./helper/sleep"
 const SCRIPT_ID = "content"
 const SCRIPT_FILE = "content.js"
 const ENABLE_DISABLE_CONTEXT_MENU_ITEM = "enable_disable_menu_item"
+const OPTIONS_CONTEXT_MENU_ITEM = "options_menu_item"
 
 const tabUpdateListener = async (tabId: number, changeInfo: TabChangeInfo, tab: Tab) => {
     if (!tab.url) {
@@ -30,39 +31,49 @@ const tabUpdateListener = async (tabId: number, changeInfo: TabChangeInfo, tab: 
             title: isEnabled ? "Disable" : "Enable",
             contexts: ["action"],
         })
+
+        if (BUILD_TYPE === "firefox") {
+            chrome.contextMenus.create({
+                id: OPTIONS_CONTEXT_MENU_ITEM,
+                title: "Options",
+                contexts: ["action"],
+            })
+        }
     })
 
     chrome.contextMenus.onClicked.addListener(async (info) => {
         if (info.menuItemId === ENABLE_DISABLE_CONTEXT_MENU_ITEM) {
             const isEnabled = !(await isExtensionEnabled())
 
-            await Promise.all([await enableExtension(isEnabled), sleep(300)])
+            await Promise.all([await setIsExtensionEnabled(isEnabled), sleep(300)])
 
             chrome.contextMenus.update(ENABLE_DISABLE_CONTEXT_MENU_ITEM, {
                 title: isEnabled ? "Disable" : "Enable",
             })
+
+            if (isEnabled) {
+                await enableExtension()
+            } else {
+                await disableExtension()
+            }
+
+            return
+        }
+
+        if (info.menuItemId === OPTIONS_CONTEXT_MENU_ITEM) {
+            chrome.runtime.openOptionsPage()
         }
     })
 
     chrome.storage.onChanged.addListener(async (changes, namespace) => {
+        console.log(changes)
         if (!changes.enabled || namespace !== "local") {
             return
         }
-
-        if (tabUpdateListener) {
-            if (changes.enabled.newValue === false) {
-                chrome.tabs.onUpdated.removeListener(tabUpdateListener)
-
-                if ((await chrome.scripting.getRegisteredContentScripts({ ids: [SCRIPT_ID] })).length > 0) {
-                    await chrome.scripting.unregisterContentScripts({ ids: [SCRIPT_ID] })
-                }
-
-                chrome.contextMenus.update(ENABLE_DISABLE_CONTEXT_MENU_ITEM, {
-                    title: "Enable",
-                })
-            } else {
-                chrome.tabs.onUpdated.addListener(tabUpdateListener)
-            }
+        if (changes.enabled.newValue === false) {
+            await disableExtension()
+        } else if (changes.enabled.newValue === true) {
+            await enableExtension()
         }
     })
 
@@ -70,10 +81,36 @@ const tabUpdateListener = async (tabId: number, changeInfo: TabChangeInfo, tab: 
         return
     }
 
-    chrome.tabs.onUpdated.addListener(tabUpdateListener)
+    await enableExtension()
 })()
 
+async function disableExtension() {
+    if (chrome.tabs.onUpdated.hasListener(tabUpdateListener)) {
+        chrome.tabs.onUpdated.removeListener(tabUpdateListener)
+    }
+
+    if (chrome.scripting) {
+        if ((await chrome.scripting.getRegisteredContentScripts({ ids: [SCRIPT_ID] })).length > 0) {
+            await chrome.scripting.unregisterContentScripts({ ids: [SCRIPT_ID] })
+        }
+    }
+
+    chrome.contextMenus.update(ENABLE_DISABLE_CONTEXT_MENU_ITEM, {
+        title: "Enable",
+    })
+}
+
+async function enableExtension() {
+    if (!chrome.tabs.onUpdated.hasListener(tabUpdateListener)) {
+        chrome.tabs.onUpdated.addListener(tabUpdateListener)
+    }
+}
+
 async function loadContentScripts(tabId: number, tabUrl: string) {
+    if (!chrome.scripting) {
+        return
+    }
+
     const hostname = getHostname(tabUrl)
     const contentScripts = await chrome.scripting.getRegisteredContentScripts({
         ids: [SCRIPT_ID],

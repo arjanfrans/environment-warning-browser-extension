@@ -1,7 +1,7 @@
 {
-  "name": "@arjanfrans/environment-warning-chrome-extension",
+  "name": "@arjanfrans/environment-warning-browser-extension",
   "description": "Extension to assist development by warning you about the environment you are currently on.",
-  "version": "0.0.9",
+  "version": "0.0.11",
   "private": true,
   "author": {
     "name": "Arjan Frans",
@@ -14,13 +14,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/arjanfrans/environment-warning-chrome-extension.git"
+    "url": "git+https://github.com/arjanfrans/environment-warning-browser-extension.git"
   },
   "bugs": {
-    "url": "https://github.com/arjanfrans/environment-warning-chrome-extension/issues"
+    "url": "https://github.com/arjanfrans/environment-warning-browser-extension/issues"
   },
   "license": "GPL-3.0-only",
-  "homepage": "https://github.com/arjanfrans/environment-warning-chrome-extension",
+  "homepage": "https://github.com/arjanfrans/environment-warning-browser-extension",
   "devDependencies": {
     "@types/chrome": "^0.0.254",
     "@types/web": "^0.0.135",
@@ -41,8 +41,10 @@
   },
   "scripts": {
     "start": "NODE_ENV=development webpack --watch",
-    "build": "NODE_ENV=production webpack",
-    "zip": "cd dist && zip -r ../dist.zip *",
+    "build:chrome": "BUILD=chrome NODE_ENV=production webpack",
+    "build:firefox": "BUILD=firefox NODE_ENV=production webpack",
+    "zip:chrome": "cd dist/chrome && zip -r ../../chrome.zip *",
+    "zip:firefox": "cd dist/firefox && zip -r ../../firefox.zip *",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
     "cs-format": "prettier 'src/**/*.ts' --write --no-semi --tab-width 4 --print-width=120",
     "cs-css": "stylelint src/**/*.css --fix",

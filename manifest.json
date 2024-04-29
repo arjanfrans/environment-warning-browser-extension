@@ -1,10 +1,6 @@
 {
   "name": "Environment Warning",
   "manifest_version": 3,
-  "background": {
-    "service_worker": "background.js"
-  },
-  "optional_host_permissions": ["*://*/*"],
   "incognito": "spanning",
   "optional_permissions": [
     "scripting"
@@ -20,5 +16,8 @@
     "48": "icon48.png",
     "128": "icon128.png"
   },
-  "options_page": "options.html"
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  }
 }
