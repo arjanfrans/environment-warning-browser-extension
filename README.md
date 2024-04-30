@@ -1,8 +1,8 @@
 # Environment Warning - Browser Extension
 
 Supported browsers:
-* Firefox
-* Chrome
+* [Firefox](https://addons.mozilla.org/en-US/firefox/addon/environment-warnings/)
+* [Chrome](https://chromewebstore.google.com/detail/environment-warning/coplemcefcojahbbpbbfbpmchlnclngk)
 
 ## Development
 
