@@ -23,6 +23,36 @@
       <h2><label for="green-environments">Green Environments</label> <span class="dot green-dot"></span></h2>
       <textarea rows="15" id="green-environments"></textarea>
     </div>
+
+    <div class="settings-row">
+      <h2>Display Settings</h2>
+      <div style="display: flex; flex-direction: row; gap: 14px; padding-bottom: 14px" id="display-settings">
+        <div style="width: 50%; display: flex; flex-direction: column">
+          <h3><label for="display-opacity">Opacity</label></h3>
+          <input id="display-opacity" type="range" min="0" max="100" step="5">
+        </div>
+
+        <div style="width: 50%; display: flex; flex-direction: row">
+          <div>
+            <h3>Text Position</h3>
+            <div style="display: flex; flex-direction:row; gap: 14px">
+              <span>
+                <input type="radio" id="text-position-left" name="text-position" value="Left">
+                <label for="text-position-left">Left</label><br>
+              </span>
+              <span>
+                <input type="radio" id="text-position-center" name="text-position" value="Center">
+                <label for="text-position-center">Center</label><br>
+              </span>
+              <span>
+                <input type="radio" id="text-position-right" name="text-position" value="Right">
+                <label for="text-position-right">Right</label>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="save-section">

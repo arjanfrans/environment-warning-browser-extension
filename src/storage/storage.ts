@@ -1,4 +1,5 @@
 import { Environment } from "../model/Environment"
+import { DisplaySettings } from "../model/DisplaySettings"
 
 export async function getEnvironments(): Promise<Environment[]> {
     return ((await chrome.storage.local.get(["environments"])).environments || []).map(Environment.fromObject)
@@ -27,4 +28,12 @@ export async function isExtensionEnabled(): Promise<boolean> {
     }
 
     return enabled
+}
+
+export async function saveDisplaySettings(displaySettings: DisplaySettings): Promise<void> {
+    await chrome.storage.local.set({ displaySettings: displaySettings })
+}
+
+export async function getDisplaySettings(): Promise<DisplaySettings> {
+    return DisplaySettings.fromObject((await chrome.storage.local.get(["displaySettings"])).displaySettings || {})
 }

@@ -3,18 +3,25 @@ import "./options.css"
 import PACKAGE_JSON from "../package.json"
 import MANIFEST_JSON from "../manifest.json"
 import { Environment } from "./model/Environment"
-import { getEnvironments, saveEnvironments } from "./storage/storage"
+import { getDisplaySettings, getEnvironments, saveDisplaySettings, saveEnvironments } from "./storage/storage"
 import { sleep } from "./helper/sleep"
 import { EnvironmentTypeEnum } from "./model/EnvironmentTypeEnum"
 import { OptionsFooter } from "./lib/options-footer"
 import { OptionsHeader } from "./lib/options-header"
 import { ALL_HOSTS_WILDCARD } from "./config/config"
+import { TextPositionEnum } from "./model/TextPositionEnum"
+import { DisplaySettings } from "./model/DisplaySettings"
 
 const redEnvironments = document.querySelector("#red-environments") as HTMLTextAreaElement
 const yellowEnvironments = document.querySelector("#yellow-environments") as HTMLTextAreaElement
 const greenEnvironments = document.querySelector("#green-environments") as HTMLTextAreaElement
 const saveSection = document.querySelector(".save-section") as HTMLDivElement
 const container = document.querySelector(".options") as HTMLDivElement
+
+const displayOpacity = document.querySelector("#display-opacity") as HTMLInputElement
+const textPositionRight = document.querySelector("#text-position-right") as HTMLInputElement
+const textPositionCenter = document.querySelector("#text-position-center") as HTMLInputElement
+const textPositionLeft = document.querySelector("#text-position-left") as HTMLInputElement
 
 const saveButton = document.querySelector("#save-button") as HTMLButtonElement
 
@@ -35,7 +42,7 @@ saveButton.addEventListener("click", () => {
     const yellowPatterns = linesToArray(yellowEnvironments.value)
     const greenPatterns = linesToArray(greenEnvironments.value)
 
-    const environments = [
+    const environments: Environment[] = [
         ...redPatterns.map((pattern) =>
             Environment.fromObject({
                 pattern,
@@ -56,15 +63,27 @@ saveButton.addEventListener("click", () => {
         ),
     ]
 
+    let textPositionValue = TextPositionEnum.Center
+
+    if (textPositionRight.checked) {
+        textPositionValue = TextPositionEnum.Right
+    } else if (textPositionLeft.checked) {
+        textPositionValue = TextPositionEnum.Left
+    }
+
+    const displaySettings = new DisplaySettings(textPositionValue, Number.parseInt(displayOpacity.value))
+
     ;(async () => {
         await saveEnvironments(environments)
+        await saveDisplaySettings(displaySettings)
         await sleep(300)
 
         saveButton.disabled = false
     })()
 })
+
 ;(async () => {
-    const environments = await getEnvironments()
+    const [environments, displaySettings] = await Promise.all([getEnvironments(), getDisplaySettings()])
 
     const redPatterns = []
     const yellowPatterns = []
@@ -83,6 +102,16 @@ saveButton.addEventListener("click", () => {
     redEnvironments.value = redPatterns.join("\n")
     yellowEnvironments.value = yellowPatterns.join("\n")
     greenEnvironments.value = greenPatterns.join("\n")
+
+    displayOpacity.value = Math.max(Math.min(displaySettings.opacity, 100), 0).toString()
+
+    if (displaySettings.textPosition === TextPositionEnum.Left) {
+        textPositionLeft.checked = true
+    } else if (displaySettings.textPosition === TextPositionEnum.Right) {
+        textPositionRight.checked = true
+    } else {
+        textPositionCenter.checked = true
+    }
 
     container.prepend(new OptionsHeader(MANIFEST_JSON.name, "Configure URL patterns", "/icon128.png"))
 

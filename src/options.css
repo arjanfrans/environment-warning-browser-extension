@@ -68,3 +68,7 @@ textarea {
     margin: var(--gap-sm);
     padding-inline: var(--gap-sm);
 }
+
+.settings-row {
+    font-size: var(--font-size-sm);
+}
