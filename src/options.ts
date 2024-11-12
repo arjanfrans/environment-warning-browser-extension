@@ -22,6 +22,7 @@ const displayOpacity = document.querySelector("#display-opacity") as HTMLInputEl
 const textPositionRight = document.querySelector("#text-position-right") as HTMLInputElement
 const textPositionCenter = document.querySelector("#text-position-center") as HTMLInputElement
 const textPositionLeft = document.querySelector("#text-position-left") as HTMLInputElement
+const textPositionNone = document.querySelector("#text-position-none") as HTMLInputElement
 
 const saveButton = document.querySelector("#save-button") as HTMLButtonElement
 
@@ -63,12 +64,14 @@ saveButton.addEventListener("click", () => {
         ),
     ]
 
-    let textPositionValue = TextPositionEnum.Center
+    let textPositionValue = TextPositionEnum.None
 
     if (textPositionRight.checked) {
         textPositionValue = TextPositionEnum.Right
     } else if (textPositionLeft.checked) {
         textPositionValue = TextPositionEnum.Left
+    } else if (textPositionCenter.checked) {
+        textPositionValue = TextPositionEnum.Center
     }
 
     const displaySettings = new DisplaySettings(textPositionValue, Number.parseInt(displayOpacity.value))
@@ -81,7 +84,6 @@ saveButton.addEventListener("click", () => {
         saveButton.disabled = false
     })()
 })
-
 ;(async () => {
     const [environments, displaySettings] = await Promise.all([getEnvironments(), getDisplaySettings()])
 
@@ -109,8 +111,10 @@ saveButton.addEventListener("click", () => {
         textPositionLeft.checked = true
     } else if (displaySettings.textPosition === TextPositionEnum.Right) {
         textPositionRight.checked = true
-    } else {
+    } else if (displaySettings.textPosition === TextPositionEnum.Center) {
         textPositionCenter.checked = true
+    } else {
+        textPositionNone.checked = true
     }
 
     container.prepend(new OptionsHeader(MANIFEST_JSON.name, "Configure URL patterns", "/icon128.png"))

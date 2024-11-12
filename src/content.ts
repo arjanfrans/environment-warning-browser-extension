@@ -101,7 +101,10 @@ function renderWarningBanner(
 ) {
     const banner = getWarningBanner()
 
-    banner.textContent = `${type.toUpperCase()} ENVIRONMENT`
+    if (textPosition !== TextPositionEnum.None) {
+        banner.textContent = `${type.toUpperCase()} ENVIRONMENT`
+        banner.style.textAlign = textPosition
+    }
 
     if (type === EnvironmentTypeEnum.Red) {
         banner.style.backgroundColor = "rgb(255,0,0)"
@@ -112,7 +115,6 @@ function renderWarningBanner(
     }
 
     banner.style.opacity = `${opacity / 100}`
-    banner.style.textAlign = textPosition
 }
 
 (async function () {
